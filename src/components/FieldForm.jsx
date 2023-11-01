@@ -40,7 +40,7 @@ export const FieldPassword = ({ name, value, onChange, validations }) => {
                 />
                 <div className="input-group-append">
                     <button
-                        className="btn btn-outline-secondary"
+                        className="btn btn-outline-dark"
                         type="button"
                         onClick={togglePasswordVisibility}
                     >
