@@ -4,7 +4,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { FieldForm, FieldPassword } from "./FieldForm.jsx";
 import AuthService from "../services/auth.service";
-
+import {AuthImg} from "./AuthImg.jsx";
 const required = (value) => {
     if (!value) {
         return (
@@ -15,15 +15,6 @@ const required = (value) => {
     }
 };
 
-const validEmail = (value) => {
-    if (!isEmail(value)) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This is not a valid email.
-            </div>
-        );
-    }
-};
 
 const vusername = (value) => {
     if (value.length < 3 || value.length > 20) {
@@ -131,6 +122,7 @@ const Register = () => {
             <div className="card card-container">
 
                 <Form onSubmit={handleRegister} ref={form}>
+                    <AuthImg/>
                     {!successful && (
                         <div>
                             <FieldForm

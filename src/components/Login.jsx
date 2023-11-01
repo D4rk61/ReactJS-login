@@ -4,6 +4,7 @@ import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import {FieldForm, FieldPassword} from "./FieldForm.jsx";
 import AuthService from "../services/auth.service.jsx";
+import {AuthImg} from "./AuthImg.jsx";
 
 const required = (value) => {
     if (!value) {
@@ -97,6 +98,7 @@ const Login = () => {
         <div className="col-md-12">
             <div className="card card-container">
                 <Form onSubmit={handleLogin} ref={form}>
+                    <AuthImg/>
                     <FieldForm
                         name="Nombre de Usuario"
                         value={nombreUsuario}
@@ -109,7 +111,7 @@ const Login = () => {
                         onChange={onChangeContrasena}
                         validations={[required, vpassword]}
                     />
-                    <FieldPassword
+                    <FieldForm
                         name="NIT"
                         value={nit}
                         onChange={onChangeNit}
@@ -117,7 +119,7 @@ const Login = () => {
                     />
 
                     <div className="form-group">
-                        <button className="btn btn-primary btn-block" disabled={loading}>
+                        <button className="btn btn-primary btn-block" disabled={loading} >
                             {loading && (
                                 <span className="spinner-border spinner-border-sm"></span>
                             )}

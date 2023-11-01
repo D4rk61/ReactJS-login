@@ -7,7 +7,8 @@ import Profile from "./components/Profile.jsx";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
-
+import './App.css'
+import './index.css'
 const App = () => {
     const [currentUser, setCurrentUser] = useState(undefined);
 
@@ -26,26 +27,32 @@ const App = () => {
     return (
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
-                <Link to={"/profile"} className="navbar-brand">
-                    Documentos Tributarios
-                </Link>
-                <div className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link to={"/home"} className="nav-link">
-                            Información
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to={"/profile"} className="nav-link">
-                            Documentos
-                        </Link>
-                    </li>
-
+                <div className="custom-margin-left">
+                    <div className="navbar-brand ml-2">
+                        Documentos Tributarios
+                    </div>
                 </div>
+                <div>
+                    {currentUser ? (
+                        <div className="navbar-nav mr-auto">
+                            <li className="nav-item">
+                                <Link to={"/home"} className="nav-link">
+                                    Info. Empresa
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/profile"} className="nav-link">
+                                    Documentos
+                                </Link>
+                            </li>
+                        </div>
 
+                    ) : null}
+                </div>
                 {currentUser ? (
                     <div className="navbar-nav ml-auto">
                         <li className="nav-item">
+
                             <Link to={"/profile"} className="nav-link">
                                 {currentUser.username}
                             </Link>
@@ -60,13 +67,13 @@ const App = () => {
                     <div className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <Link to={"/login"} className="nav-link">
-                                Login
+                                Iniciar Sesión
                             </Link>
                         </li>
 
                         <li className="nav-item">
                             <Link to={"/register"} className="nav-link">
-                                Sign Up
+                                Registrarse
                             </Link>
                         </li>
                     </div>

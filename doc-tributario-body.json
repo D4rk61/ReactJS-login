@@ -1,0 +1,14 @@
+"receptor": {
+    "tipoDocumento":"36",
+    "numDocumento": "036658899",
+    "nrc": null,
+    "nombre": "IMPORTADORA ASIATICA DIVERSA, SOCIEDAD ANONIMA DE CAPITAL VARIABLE",
+    "codActividad": "10004",
+    "descActividad": "VENTA AL POR MAYOR DE OTROS PRODUCTOS",
+    "direccion": {
+      "departamento": "01",
+      "municipio": "01",
+      "complemento": "Complemento de la dirección del Receptor"
+    },
+    "telefono": "12345678",
+    "correo": "blazo.dev@gmail.com"

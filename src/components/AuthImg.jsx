@@ -1,5 +1,4 @@
 import React from "react";
-
 export const AuthImg = () => {
     return (
         <div className="text-center mt-3">

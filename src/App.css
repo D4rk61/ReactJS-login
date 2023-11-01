@@ -30,3 +30,15 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+.custom-margin-left {
+  margin-left: 20px; /* Ajusta el valor según el margen deseado */
+}
+
+.input-group-append {
+  margin-left: 20px; /* Ajusta el valor según el margen deseado */
+}
+
+.no-list-style {
+  list-style: none;
+}
