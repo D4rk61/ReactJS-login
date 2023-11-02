@@ -79,6 +79,7 @@ const Register = () => {
         setRoles(roles);
     }
 
+    
     const handleRegister = (e) => {
         e.preventDefault();
 
@@ -96,7 +97,7 @@ const Register = () => {
                 nit,
                 nombreEmpresa,
                 nombreUsuario,
-                roles
+                ["user"]
             ).then(
                 (response) => {
                     setMessage(response.data.message);
@@ -110,8 +111,18 @@ const Register = () => {
                         error.message ||
                         error.toString();
 
-                    setMessage(resMessage);
-                    setSuccessful(false);
+                    if (resMessage.includes("dup key")) {
+                        if (resMessage.includes("nit")) {
+                            
+                            setMessage("ID ya existente");
+                    } else if (resMessage.includes("nombreUsuario")) {
+                        setMessage("Nombre de usuario ya existente");
+                    }
+                    } else {
+                        setMessage(resMessage);
+                    }
+
+               setSuccessful(false);
                 }
             );
         }
@@ -161,13 +172,7 @@ const Register = () => {
                                 onChange={(e) => setNombreUsuario(e.target.value)}
                                 validations={[required, vusername]}
                             />
-                            <FieldForm
-                                name="Roles"
-                                value={roles}
-                                onChange={(e) => setRoles(e.target.value)}
-                                validations={[required]}
-                            />
-
+                           
 
                             <div className="form-group mt-2">
                                 <button className="btn btn-primary btn-block">Sign Up</button>
