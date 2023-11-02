@@ -1,6 +1,8 @@
 import Input from "react-validation/build/input.js";
 import React from "react";
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye } from "@fortawesome/free-regular-svg-icons";
 /*
     Componente reutilizable:
     Este se podra usar para agregar mas campos dentro
@@ -21,6 +23,7 @@ export const FieldForm = ({ name, value, onChange, validations }) => {
         </div>
     );
 };
+
 export const FieldPassword = ({ name, value, onChange, validations }) => {
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
@@ -44,7 +47,7 @@ export const FieldPassword = ({ name, value, onChange, validations }) => {
                         type="button"
                         onClick={togglePasswordVisibility}
                     >
-                        {showPassword ? "Ocultar" : "Mostrar"}
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                     </button>
                 </div>
             </div>

@@ -9,6 +9,13 @@ import { Link } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'
 import './index.css'
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+
+library.add(far);
 const App = () => {
     const [currentUser, setCurrentUser] = useState(undefined);
 

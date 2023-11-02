@@ -99,6 +99,14 @@ const Login = () => {
             <div className="card card-container">
                 <Form onSubmit={handleLogin} ref={form}>
                     <AuthImg/>
+
+                    <FieldForm
+                        name="NIT"
+                        value={nit}
+                        onChange={onChangeNit}
+                        validations={[required]}
+                    />
+
                     <FieldForm
                         name="Nombre de Usuario"
                         value={nombreUsuario}
@@ -111,12 +119,8 @@ const Login = () => {
                         onChange={onChangeContrasena}
                         validations={[required, vpassword]}
                     />
-                    <FieldForm
-                        name="NIT"
-                        value={nit}
-                        onChange={onChangeNit}
-                        validations={[required]}
-                    />
+
+                  
 
                     <div className="form-group mt-2">
                         <button className="btn btn-danger btn-block" disabled={loading} >
