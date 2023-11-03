@@ -3,12 +3,15 @@ import UserService from "../services/user.service.jsx";
 import AuthService from "../services/auth.service.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ApiButtons} from "./ApiButtons.jsx";
+import { DataFieldReadOnly } from "./ShowDataFields.jsx"
+
 const Profile = () => {
     const currentUser = AuthService.getCurrentUser();
     const [documentoTributario, setDocumentoTributario] = useState("");
     let [isDocumentValid, setIsDocumentValid] = useState(false);
     let [documentInfo, setDocumentInfo] = useState(null);
     let [busquedaRealizada, setBusquedaRealizada] = useState(null);
+    
     const obtenerValor = () => {
         const codigoGeneracion = documentoTributario;
         const codigoGeneracionRegex = /^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/;
@@ -17,6 +20,8 @@ const Profile = () => {
             console.log(codigoGeneracion);
             setIsDocumentValid(true);
             setBusquedaRealizada(true);
+
+            //descargarJSON(); 
             return codigoGeneracion;
 
         } else if (codigoGeneracion === "") {
@@ -33,7 +38,8 @@ const Profile = () => {
         }
     }
     const descargarPDF = () => {
-        const codigoGeneracion = obtenerValor();
+        //const codigoGeneracion = obtenerValor();
+        const codigoGeneracion = documentoTributario;
         UserService.getPDF(codigoGeneracion)
             .then((response) => {
                 console.log("Descargando PDF:", response.data);
@@ -128,6 +134,45 @@ const Profile = () => {
                     {isDocumentValid && documentInfo && busquedaRealizada ? (
                         <div className="mt-5">
                             <h4>Información del documento tributario:</h4>
+                            
+                            <h6 className="text-center mt-2">Datos del Receptor:</h6>
+                            <div className="mt-2">
+                                <table className="table">
+                                    <DataFieldReadOnly
+                                        label="Tipo documento"
+                                        value={documentInfo.receptor.tipoDocumento}
+                                    />
+                                    <DataFieldReadOnly
+                                        label="No. Documento"
+                                        value={documentInfo.receptor.numDocumento}
+                                    />
+                                    <DataFieldReadOnly
+                                        label="Nrc"
+                                        value={documentInfo.receptor.nrc}
+                                    />
+                                    <DataFieldReadOnly
+                                        label="Nombre"
+                                        value={documentInfo.receptor.nombre}
+                                    />
+                                    <DataFieldReadOnly
+                                        label="Codigo Actividad"
+                                        value={documentInfo.receptor.codActividad}
+                                    />
+                                    <DataFieldReadOnly
+                                        label="Descripcion Actividad"
+                                        value={documentInfo.receptor.descActividad}
+                                    />
+
+                                    <DataFieldReadOnly
+                                        label="telefono"
+                                        value={documentInfo.receptor.telefono}
+                                    />
+                                    <DataFieldReadOnly
+                                        label="correo"
+                                        value={documentInfo.receptor.correo}
+                                    />
+                                </table>
+                            </div>
                         </div>
 
                     ) : (

@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header.jsx";
 
 const API_URL = "http://localhost:3000/api/v1/auth/";
 
@@ -49,11 +50,42 @@ const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 };
 
+
+// metodo actualizar una empresa
+// error que da - 403 => deshautorizado, esta mejo
+const updateUser = (updateData) => {
+    return axios.patch(API_URL + "update", updateData, { headers: authHeader() });
+};
+
+/*  Version fallida - 400
+const updateUser = (updateData) => {
+    headers: {
+        authHeader()
+    }
+
+    return axios.patch(API_URL + "update", {
+        updateData
+    })
+
+}
+*/
+/* Version fallida - 400
+const updateUser = (updateData) => {
+    return axios.patch(API_URL + "update", {
+        updateData
+    }, {
+        headers: authHeader()
+    });
+}
+*/
+
+
 const AuthService = {
     register,
     login,
     logout,
     getCurrentUser,
+    updateUser
 };
 
 export default AuthService;

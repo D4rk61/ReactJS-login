@@ -17,10 +17,41 @@ const Home = () => {
         setIsEditing(true);
     };
 
+    /*
     const handleConfirmClick = () => {
-        // Aquí puedes realizar la lógica para guardar los cambios
-        setIsEditing(false);
-        // También puedes hacer una solicitud a la API para actualizar los datos
+    AuthService.updateUser(editedData)
+        .then(response => {
+            console.log(response.data);
+            setIsEditing(false);
+            console.log(editedData);
+
+        })
+        .catch(error => {
+            console.log(editedData);
+            console.error('Hubo un error!', error);
+        });
+    };
+    */
+
+    const handleConfirmClick = () => {
+    // Crea un nuevo objeto que contiene solo los campos que el usuario ha editado
+    const updateData = Object.keys(editedData)
+        .filter(key => editedData[key] !== currentUser.data[key])
+        .reduce((obj, key) => {
+            obj[key] = editedData[key];
+            return obj;
+        }, {});
+
+    // Envía el objeto de actualización a la API
+    AuthService.updateUser(updateData)
+        .then(response => {
+            console.log(response.data);
+            setIsEditing(false);
+        })
+        .catch(error => {
+            console.log(updateData);
+            console.error('Hubo un error!', error);
+        });
     };
 
     const handleChange = (field, value) => {
@@ -59,13 +90,12 @@ const Home = () => {
                                 handleChange={handleChange}
                             />
                             <Roles roles={currentUser.data.roles} isEditing={isEditing} />
-                            <DataField
+                            
+                            <DataFieldReadOnly
                                 label="NIT"
-                                field="nit"
-                                isEditing={isEditing}
                                 value={editedData.nit}
-                                handleChange={handleChange}
                             />
+
                             <DataField
                                 label="Teléfono"
                                 field="telefono"
@@ -99,8 +129,6 @@ const Home = () => {
                                 label="Municipio"
                                 value={editedData.direccionMunicipio}
                             />
-
-
                             </tbody>
                         </table>
                     </div>
