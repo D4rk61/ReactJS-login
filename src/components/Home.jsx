@@ -5,8 +5,10 @@ import "../App.css";
 
 const Home = () => {
     const currentUser = AuthService.getCurrentUser();
+    const jwt = currentUser.accessToken.toString();
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState({
+
         ...currentUser.data,
         direccionComplemento: currentUser.data.direccion.complemento,
         direccionDepartamento: currentUser.data.direccion.departamento,
@@ -30,9 +32,7 @@ const Home = () => {
             console.log(editedData);
             console.error('Hubo un error!', error);
         });
-    };
-    */
-
+    }; */
     const handleConfirmClick = () => {
     // Crea un nuevo objeto que contiene solo los campos que el usuario ha editado
     const updateData = Object.keys(editedData)

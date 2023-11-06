@@ -4,7 +4,7 @@ import AuthService from "../services/auth.service.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ApiButtons} from "./ApiButtons.jsx";
 import { DataFieldReadOnly } from "./ShowDataFields.jsx"
-
+    
 const Profile = () => {
     const currentUser = AuthService.getCurrentUser();
     const [documentoTributario, setDocumentoTributario] = useState("");
@@ -18,6 +18,7 @@ const Profile = () => {
 
         if (codigoGeneracionRegex.test(codigoGeneracion)) {
             console.log(codigoGeneracion);
+            UserService.getJSON(codigoGeneracion);
             setIsDocumentValid(true);
             setBusquedaRealizada(true);
 

@@ -1,21 +1,24 @@
 import axios from "axios";
 import authHeader from "./auth-header.jsx";
-const API_URL = "http://localhost:3000/api/v1/documentos-tributarios";      // servicios a acceder luego del login
+import * as config from "./ip-config.jsx";
+import {API_URL_DATA} from "./ip-config.jsx";
+//const API_URL = "http://localhost:3000/api/v1/documentos-tributarios";      // servicios a acceder luego del login
+
 
 const getPublicContent = () => {
-    return axios.get(API_URL);
+    return axios.get(API_URL_DATA);
 };
 
 const getPDF = (codigoGeneracion) => {
-    return axios.get(API_URL + `/pdf/${codigoGeneracion}`, { headers: authHeader() });
+    return axios.get(API_URL_DATA + `/pdf/${codigoGeneracion}`, { headers: authHeader() });
 };
 
 const getJSON = (codigoGeneracion) => {
-    return axios.get(API_URL + `/json/${codigoGeneracion}`, { headers: authHeader() });
+    return axios.get(API_URL_DATA + `/json/${codigoGeneracion}`, { headers: authHeader() });
 };
 
 const getEmail = (codigoGeneracion) => {
-    return axios.get(API_URL + `/email/${codigoGeneracion}`, { headers: authHeader() });
+    return axios.get(API_URL_DATA + `/email/${codigoGeneracion}`, { headers: authHeader() });
 };
 
 // metodos post
