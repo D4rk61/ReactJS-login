@@ -1,0 +1,23 @@
+# Archivos y directorios generados por npm/yarn
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Archivos generados por compiladores/transpiladores
+*.js
+*.jsx
+*.ts
+*.tsx
+*.map
+
+# Archivos de configuración locales
+.env
+
+# Archivos de caché y logs
+logs
+*.log
+
+# Otros archivos/directorios específicos de tu proyecto
+build
+coverage
+
