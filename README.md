@@ -39,7 +39,7 @@ Siga estos pasos para configurar y ejecutar el proyecto:
     ```
 
    - Cambie la variable **"IP"** a la dirección IP de su servidor AWS. Asegúrese de que la dirección sea la correcta y esté en funcionamiento.
-  
+
 ## Deploy a AWS, Dockerizando la aplicación
 
 Puede utilizar Docker para empacar y desplegar su aplicación de manera sencilla. Siga estos pasos para crear una imagen de Docker y ejecutar su aplicación:
@@ -67,7 +67,7 @@ Aquí se enumeran algunas de las tareas pendientes en el proyecto:
 
 - Investigar el motivo por el que la ruta `/auth/update` arroja un error 403.
 - Confirmar si el buscador de documentos envía correctamente el JSON.
-
+- Verificar peticiones PATCH al backend
 
 ## ¿Necesita Ayuda?
 
