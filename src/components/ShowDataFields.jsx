@@ -11,11 +11,11 @@ export const DataField = ({ label, field, isEditing, value, handleChange }) => {
                     <input
                         type="text"
                         className="form-control"
-                        value={value}
+                        value={value || "--"}
                         onChange={(e) => handleChange(field, e.target.value)}
                     />
                 ) : (
-                    value
+                    value || "--"
                 )}
             </td>
         </tr>
@@ -45,7 +45,7 @@ export const DataFieldReadOnly = ({ label, value }) => {
             <td>
                 <strong>{label}:</strong>
             </td>
-            <td>{value}</td>
+            <td>{value || "--"}</td>
         </tr>
     );
 };

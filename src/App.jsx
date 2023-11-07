@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import './App.css'
 import './index.css'
-
+import Admin from "./components/Admin.jsx";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,10 +18,22 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 library.add(far);
 const App = () => {
     const [currentUser, setCurrentUser] = useState(undefined);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
+        if (user && user.data.roles && user.data.roles.includes("admin")) {
+            console.log("is admin", isAdmin);
+            setIsAdmin(true);
+        } else {
+            setIsAdmin(false);
+            console.log("is not admin", isAdmin);
+        }
+    }, [currentUser]);
 
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
         if (user) {
             setCurrentUser(user);
         }
@@ -52,9 +64,15 @@ const App = () => {
                                     Documentos
                                 </Link>
                             </li>
+                            {isAdmin && (
+                                <li className="nav-item">
+                                    <a href="/admin" className="nav-link">
+                                        Admin
+                                    </a>
+                                </li>
+                            )}
                         </div>
-
-                    ) : null}
+                        ) : null}
                 </div>
                 {currentUser ? (
                     <div className="navbar-nav ml-auto">
@@ -94,6 +112,7 @@ const App = () => {
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
                     <Route path="/profile" element={<Profile/>} />
+                    <Route path="/admin" element={<Admin/>} />
                 </Routes>
             </div>
         </div>

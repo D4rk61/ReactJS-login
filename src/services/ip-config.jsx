@@ -1,4 +1,4 @@
-export let IP = "localhost"
+export let IP = "18.212.152.121"
 export let PORT = "3000"
 export const API_URL_BASE = `http://${IP}:${PORT}/api/v1`
 export const API_URL_AUTH = `${API_URL_BASE}/auth`

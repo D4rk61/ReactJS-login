@@ -100,10 +100,10 @@ const Profile = () => {
                 <div className="col">
                     <div className="mb-3 mt-4">
                         <p className="mb-2">
-                            <strong>Empresa:</strong> {currentUser.data.nombreEmpresa}
+                            <strong>Empresa:</strong> {currentUser.data.nombreEmpresa || "--"}
                         </p>
                         <p className="mb-2">
-                            <strong>Correo de la empresa:</strong> {currentUser.data.correoEmpresa}
+                            <strong>Correo de la empresa:</strong> {currentUser.data.correoEmpresa || "--"}
                         </p>
                     </div>
                 </div>

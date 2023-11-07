@@ -2,18 +2,28 @@ import {DataField, DataFieldReadOnly, Roles } from "./ShowDataFields.jsx";
 import React, { useState } from "react";
 import AuthService from "../services/auth.service";
 import "../App.css";
+import authHeader from "../services/auth-header.jsx";
+
+const currentUser = AuthService.getCurrentUser();
+//export const jwt = currentUser.accessToken;
 
 const Home = () => {
-    const currentUser = AuthService.getCurrentUser();
-    const jwt = currentUser.accessToken.toString();
     const [isEditing, setIsEditing] = useState(false);
+    /*
     const [editedData, setEditedData] = useState({
-
         ...currentUser.data,
         direccionComplemento: currentUser.data.direccion.complemento,
         direccionDepartamento: currentUser.data.direccion.departamento,
         direccionMunicipio: currentUser.data.direccion.municipio,
+    });*/
+
+    const [editedData, setEditedData] = useState({
+        ...currentUser.data,
+        direccionComplemento: currentUser.data.direccion && currentUser.data.direccion.complemento,
+        direccionDepartamento: currentUser.data.direccion && currentUser.data.direccion.departamento,
+        direccionMunicipio: currentUser.data.direccion && currentUser.data.direccion.municipio,
     });
+
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -33,6 +43,7 @@ const Home = () => {
             console.error('Hubo un error!', error);
         });
     }; */
+    /* Version 2 - fallida
     const handleConfirmClick = () => {
     // Crea un nuevo objeto que contiene solo los campos que el usuario ha editado
     const updateData = Object.keys(editedData)
@@ -52,7 +63,36 @@ const Home = () => {
             console.log(updateData);
             console.error('Hubo un error!', error);
         });
+    }; */
+
+    const handleConfirmClick = () => {
+        // Crea un nuevo objeto que contiene solo los campos que el usuario ha editado
+        const updateData = Object.keys(editedData)
+            .filter(key => editedData[key] !== currentUser.data[key])
+            .reduce((obj, key) => {
+                obj[key] = editedData[key];
+                return obj;
+            }, {});
+
+        // Extrae los argumentos individuales del objeto de actualización
+        const ambiente = updateData.ambiente;
+        const correoEmpresa = updateData.correoEmpresa;
+        const telefono = updateData.telefono;
+        const descripcionActividad = updateData.descripcionActividad;
+        const giroComercial = updateData.giroComercial;
+
+        // Envía los argumentos individuales a la API
+        AuthService.updateCompanyInfo(ambiente, correoEmpresa, telefono, descripcionActividad, giroComercial)
+            .then(response => {
+                console.log(response.data);
+                setIsEditing(false);
+            })
+            .catch(error => {
+                console.log(updateData);
+                console.error('Hubo un error!', error);
+            });
     };
+
 
     const handleChange = (field, value) => {
         setEditedData((prevData) => ({ ...prevData, [field]: value }));
@@ -75,12 +115,9 @@ const Home = () => {
                                 value={editedData.ambiente}
                                 handleChange={handleChange}
                             />
-                            <DataField
+                            <DataFieldReadOnly
                                 label="Empresa"
-                                field="nombreEmpresa"
-                                isEditing={isEditing}
                                 value={editedData.nombreEmpresa}
-                                handleChange={handleChange}
                             />
                             <DataField
                                 label="Correo de la empresa"
@@ -90,7 +127,7 @@ const Home = () => {
                                 handleChange={handleChange}
                             />
                             <Roles roles={currentUser.data.roles} isEditing={isEditing} />
-                            
+
                             <DataFieldReadOnly
                                 label="NIT"
                                 value={editedData.nit}

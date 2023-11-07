@@ -1,7 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header.jsx";
 import * as config from "./ip-config.jsx";
-
 //const API_URL = "http://localhost:3000/api/v1/auth/";
 const register = (
     ambiente,
@@ -54,8 +53,27 @@ const getCurrentUser = () => {
 // metodo actualizar una empresa
 // error que da - 403 => deshautorizado, esta mejo
 const updateUser = (updateData) => {
-    return axios.patch(config.API_URL_AUTH + "/update", updateData, { headers: authHeader() });
-};
+    return axios.patch(config.API_URL_AUTH + "/update", updateData, {headers : authHeader()});
+}
+const updateCompanyInfo = (
+    ambiente,
+    correoEmpresa,
+    telefono,
+    descripcionActividad,
+    giroComercial
+) => {
+    const data = {
+        ambiente: ambiente,
+        correoEmpresa: correoEmpresa,
+        telefono: telefono,
+        descripcionActividad: descripcionActividad,
+        giroComercial: giroComercial
+    };
+
+
+    return axios.patch(config.API_URL_AUTH + "/update", data, {headers: authHeader()});
+}
+
 
 /*  Version fallida - 400
 const updateUser = (updateData) => {
@@ -85,7 +103,7 @@ const AuthService = {
     login,
     logout,
     getCurrentUser,
-    updateUser
+    updateCompanyInfo
 };
 
 export default AuthService;
