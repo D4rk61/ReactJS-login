@@ -5,7 +5,7 @@ import "../App.css";
 import authHeader from "../services/auth-header.jsx";
 
 const currentUser = AuthService.getCurrentUser();
-//export const jwt = currentUser.accessToken;
+//const jwt = currentUser.accessToken;
 
 const Home = () => {
     const [isEditing, setIsEditing] = useState(false);

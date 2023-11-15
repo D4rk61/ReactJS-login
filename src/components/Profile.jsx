@@ -1,17 +1,20 @@
 import React, {useState} from "react";
 import UserService from "../services/user.service.jsx";
 import AuthService from "../services/auth.service.jsx";
+//import UserServiceSpring from "../services/user.service.spring.jsx"
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ApiButtons} from "./ApiButtons.jsx";
 import { DataFieldReadOnly } from "./ShowDataFields.jsx"
-    
+
 const Profile = () => {
     const currentUser = AuthService.getCurrentUser();
+    const [jwt, setJwt] = useState('');
     const [documentoTributario, setDocumentoTributario] = useState("");
     let [isDocumentValid, setIsDocumentValid] = useState(false);
     let [documentInfo, setDocumentInfo] = useState(null);
     let [busquedaRealizada, setBusquedaRealizada] = useState(null);
-    
+
     const obtenerValor = () => {
         const codigoGeneracion = documentoTributario;
         const codigoGeneracionRegex = /^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/;
@@ -22,7 +25,7 @@ const Profile = () => {
             setIsDocumentValid(true);
             setBusquedaRealizada(true);
 
-            //descargarJSON(); 
+            //descargarJSON();
             return codigoGeneracion;
 
         } else if (codigoGeneracion === "") {
@@ -38,6 +41,7 @@ const Profile = () => {
             return null;
         }
     }
+
     const descargarPDF = () => {
         //const codigoGeneracion = obtenerValor();
         const codigoGeneracion = documentoTributario;
@@ -90,6 +94,11 @@ const Profile = () => {
                 }
             });
     }
+    /*
+    const jwtContingencia = () =>  {
+        const jwtUser = currentUser.accessToken;
+        UserServiceSpring.jwtContingenciaGetToken(jwtUser);
+    }*/
 
     return (
         <div className="container">
@@ -135,7 +144,7 @@ const Profile = () => {
                     {isDocumentValid && documentInfo && busquedaRealizada ? (
                         <div className="mt-5">
                             <h4>Información del documento tributario:</h4>
-                            
+
                             <h6 className="text-center mt-2">Datos del Receptor:</h6>
                             <div className="mt-2">
                                 <table className="table">
