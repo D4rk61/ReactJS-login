@@ -53,7 +53,15 @@ const getCurrentUser = () => {
 // metodo actualizar una empresa
 // error que da - 403 => deshautorizado, esta mejo
 const updateUser = (updateData) => {
-    return axios.patch(config.API_URL_AUTH + "/update", updateData, {headers : authHeader()});
+    return axios.patch(config.API_URL_AUTH + "/update", updateData,
+    {
+            headers: {
+                "token": authHeader(),
+                "Content-Type": "application/json"
+            }
+        }
+
+    );
 }
 const updateCompanyInfo = (
     ambiente,
