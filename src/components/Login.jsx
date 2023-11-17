@@ -5,37 +5,12 @@ import CheckButton from "react-validation/build/button";
 import {FieldForm, FieldPassword} from "./FieldForm.jsx";
 import AuthService from "../services/auth.service.jsx";
 import {AuthImg} from "./AuthImg.jsx";
+import { ErrorBoundary } from "react-error-boundary";
+import {ErrorFallback} from "../main.jsx";
 
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
-
-const vusername = (value) => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The username must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
-
-const vpassword = (value) => {
-    if (value.length < 6 || value.length > 40) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The password must be between 6 and 40 characters.
-            </div>
-        );
-    }
-};
-
+const required = (value) => value ? undefined : 'Campo requerido!';
+const vusername = (value) => (value.length >= 3 && value.length <= 20) ? undefined : 'El nombre de usuario debe tener entre 4 a 20 caracteres';
+const vpassword = (value) => (value.length >= 5 && value.length <= 40) ? undefined : 'La contraseña debe contener mas de 5 caracteres.';
 const Login = () => {
     let navigate = useNavigate();
 
@@ -78,21 +53,29 @@ const Login = () => {
                     window.location.reload();
                 },
                 (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
                     setLoading(false);
-                    setMessage(resMessage);
+
+                    if (error.response) {
+                        // Si la respuesta del servidor tiene un código de error
+                        const status = error.response.status;
+
+                        if (status === 401) {
+                            setMessage("Nombre de usuario, contraseña o NIT incorrectos.");
+                        } else if (status === 500) {
+                            setMessage("Error interno del servidor. Por favor, inténtalo de nuevo más tarde.");
+                        } else {
+                            setMessage(`Error ${status}. Por favor, inténtalo de nuevo más tarde.`);
+                        }
+                    } else {
+                        setMessage("Error de red o conexion a la base de datos, contactate con tu proveedor.");
+                    }
                 }
             );
         } else {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="col-md-12">
@@ -120,8 +103,6 @@ const Login = () => {
                         validations={[required, vpassword]}
                     />
 
-                  
-
                     <div className="form-group mt-2">
                         <button className="btn btn-danger btn-block" disabled={loading} >
                             {loading && (
@@ -142,6 +123,7 @@ const Login = () => {
                 </Form>
             </div>
         </div>
+
     );
 };
 

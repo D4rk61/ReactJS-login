@@ -23,7 +23,7 @@ const Home = () => {
         direccionDepartamento: currentUser.data.direccion && currentUser.data.direccion.departamento,
         direccionMunicipio: currentUser.data.direccion && currentUser.data.direccion.municipio,
     });
-
+    const [alert, setAlert] = useState({ type: "", message: "" });
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -81,15 +81,33 @@ const Home = () => {
         const descripcionActividad = updateData.descripcionActividad;
         const giroComercial = updateData.giroComercial;
 
-        // Envía los argumentos individuales a la API
         AuthService.updateCompanyInfo(ambiente, correoEmpresa, telefono, descripcionActividad, giroComercial)
             .then(response => {
                 console.log(response.data);
                 setIsEditing(false);
+                setAlert({ type: "success", message: "Información actualizada con éxito." });
             })
             .catch(error => {
                 console.log(updateData);
-                console.error('Hubo un error!', error);
+                console.error('Hubo un error al actualizar la información de la empresa:', error);
+
+                let errorMessage = "Error al actualizar la información de la empresa. Por favor, inténtalo de nuevo más tarde.";
+
+                if (error.response) {
+                    const status = error.response.status;
+
+                    if (status === 400) {
+                        errorMessage = "Verifica los campos obligatorios y sus formatos.";
+                    } else if (status === 401) {
+                        errorMessage = "No tienes permisos para realizar esta acción.";
+                    } else if (status === 500) {
+                        errorMessage = "Error interno del servidor. Por favor, inténtalo de nuevo más tarde.";
+                    }
+                } else if (error.message === "Network Error") {
+                    errorMessage = "Error de red. Por favor, verifica tu conexión e inténtalo de nuevo.";
+                }
+
+                setAlert({ type: "danger", message: errorMessage });
             });
     };
 
@@ -172,6 +190,11 @@ const Home = () => {
                 </div>
             </div>
             <div className="mt-3">
+                {alert.type && alert.message && (
+                    <div className={`alert alert-${alert.type}`} role="alert">
+                        {alert.message}
+                    </div>
+                )}
                 <button
                     className="btn btn-outline-dark"
                     type="button"

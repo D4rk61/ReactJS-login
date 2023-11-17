@@ -5,37 +5,10 @@ import CheckButton from "react-validation/build/button";
 import { FieldForm, FieldPassword } from "./FieldForm.jsx";
 import AuthService from "../services/auth.service";
 import {AuthImg} from "./AuthImg.jsx";
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
 
-
-const vusername = (value) => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The username must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
-
-const vpassword = (value) => {
-    if (value.length < 6 || value.length > 40) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The password must be between 6 and 40 characters.
-            </div>
-        );
-    }
-};
-
+const required = (value) => value ? undefined : 'Campo requerido!';
+const vusername = (value) => (value.length >= 3 && value.length <= 20) ? undefined : 'El nombre de usuario debe tener entre 4 a 20 caracteres';
+const vpassword = (value) => (value.length >= 5 && value.length <= 40) ? undefined : 'La contraseña debe contener mas de 5 caracteres.';
 const Register = () => {
     const form = useRef();
     const checkBtn = useRef();
@@ -115,18 +88,25 @@ const Register = () => {
                         error.message ||
                         error.toString();
 
-                    if (resMessage.includes("dup key")) {
+                    if (resMessage.includes("duplicate key error")) {
                         if (resMessage.includes("nit")) {
-
                             setMessage("NIT incorrecto y/o ya existente");
-                    } else if (resMessage.includes("nombreUsuario")) {
-                        setMessage("Nombre de usuario ya existente");
-                    }
+                        } else if (resMessage.includes("nombreUsuario")) {
+                            setMessage("Nombre de usuario ya existente");
+                        }
+                    } else if (resMessage.includes("ValidationError")) {
+                        setMessage("Verifica los campos obligatorios y sus formatos.");
+                    } else if (resMessage.includes("E11000 duplicate key")) {
+                        setMessage("Ya existe un usuario con este NIT o Nombre de Usuario.");
+                    } else if (resMessage.includes("Unauthorized")) {
+                        setMessage("No tienes permisos para realizar esta acción.");
+                    } else if (resMessage.includes("Network Error")) {
+                        setMessage("Error de red o conexion a la base de datos, contactate con tu proveedor.");
                     } else {
-                        setMessage(resMessage);
+                        setMessage("Error al registrar usuario. Por favor, inténtalo de nuevo más tarde.");
                     }
 
-               setSuccessful(false);
+                    setSuccessful(false);
                 }
             );
         }

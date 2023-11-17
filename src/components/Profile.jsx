@@ -14,7 +14,7 @@ const Profile = () => {
     let [isDocumentValid, setIsDocumentValid] = useState(false);
     let [documentInfo, setDocumentInfo] = useState(null);
     let [busquedaRealizada, setBusquedaRealizada] = useState(null);
-
+    const [alert, setAlert] = useState({ type: "", message: "" });
     const obtenerValor = () => {
         const codigoGeneracion = documentoTributario;
         const codigoGeneracionRegex = /^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/;
@@ -29,13 +29,13 @@ const Profile = () => {
             return codigoGeneracion;
 
         } else if (codigoGeneracion === "") {
-            alert("Por favor ingrese un documento tributario.");
+            setAlert({ type: "danger", message: "Por favor ingrese un documento tributario." });
             setIsDocumentValid(false);
             setBusquedaRealizada(false);
             return null;
 
         } else {
-            alert(`El documento: "${codigoGeneracion}" tiene un formato equivocado.`);
+            setAlert({ type: "danger", message: `El documento: "${codigoGeneracion}" tiene un formato equivocado.` });
             setIsDocumentValid(false);
             setBusquedaRealizada(false);
             return null;
@@ -105,6 +105,13 @@ const Profile = () => {
             <header className="jumbotron">
                 <h2 className="text-center text-dark">Busqueda Documentos Tributarios</h2>
             </header>
+            <div className="mt-5">
+                {alert.type && alert.message && (
+                    <div className={`alert alert-${alert.type}`} role="alert">
+                        {alert.message}
+                    </div>
+                )}
+            </div>
             <div className="row">
                 <div className="col">
                     <div className="mb-3 mt-4">
